@@ -1,0 +1,24 @@
+name: Build release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Build project
+        run: msbuild "tema 11 - dohodi i rashodi.vcxproj" /t:Rebuild /p:Configuration=Release
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: program
+          path: '**\\Release\\*.exe'
